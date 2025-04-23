@@ -180,7 +180,7 @@ if model is not None and scaler is not None:
         
         categories = {
             "Customer Information": {
-                "trustLevel": ("Trust Level", 0.0, 100.0, 75.0, 1.0, "Higher values indicate more trusted customers")
+                "trustLevel": ("Trust Level", 0.0, 6.0, 3.0, 1.0, "Higher values indicate more trusted customers")
             },
             "Transaction Metrics": {
                 "totalScanTimeInSeconds": ("Scan Time (sec)", 0.0, 600.0, 120.0, 1.0, "Duration of transaction scanning"),
@@ -270,6 +270,8 @@ if model is not None and scaler is not None:
                 
                 # Predict
                 predicted_class = model.predict(user_input_scaled)[0]
+                if( user_input['trustLevel'] < 2.0) or (user_input['totalScanTimeInSeconds'] > 300.0):
+                    predicted_class = 1
 
                 confidence = np.random.uniform(0.75, 0.98) if predicted_class == 1 else np.random.uniform(0.80, 0.99)
  
